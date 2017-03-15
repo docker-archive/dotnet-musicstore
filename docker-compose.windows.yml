@@ -1,0 +1,31 @@
+version: '2.1'
+
+services:
+  db:
+    image: microsoft/mssql-server-windows-developer
+    environment:
+      sa_password: "Password1"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "Password1", "-Q", "select 1" ]
+      interval: 1s
+      retries: 30
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.windows
+    environment:
+      - "Data:DefaultConnection:ConnectionString=Server=db,1433;Database=MusicStore;User Id=sa;Password=Password1;MultipleActiveResultSets=True"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+
+networks:
+  default:
+    external:
+      name: nat
