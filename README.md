@@ -22,9 +22,3 @@ This project is part of ASP.NET Core. You can find samples, documentation and ge
  * `docker-compose -f .\docker-compose.windows.yml build`
  * `docker-compose -f .\docker-compose.windows.yml up`
  * Access MusicStore on either the Windows VM IP or (if container is running locally) on the container IP: `docker inspect -f "{{ .NetworkSettings.Networks.nat.IPAddress }}" musicstore_web_1`
-
-## NTLM authentication
-More information at [src/MusicStore/StartupNtlmAuthentication.cs](src/MusicStore/StartupNtlmAuthentication.cs).
-
-## OpenIdConnect authentication
-More information at [src/MusicStore/StartupOpenIdConnect.cs](src/MusicStore/StartupOpenIdConnect.cs).
