@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/dotnet:1.1-sdk-msbuild-nanoserver
+FROM microsoft/dotnet:sdk-nanoserver
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 RUN New-Item -Path \MusicStore\samples\MusicStore -Type Directory; `
@@ -10,10 +10,10 @@ COPY samples/MusicStore/MusicStore.csproj samples/MusicStore/MusicStore.csproj
 COPY NuGet.config .
 COPY version.props .
 COPY build/*.props build/
-RUN dotnet restore .\samples\MusicStore
+RUN dotnet restore --runtime win10-x64 .\samples\MusicStore
 
 COPY samples samples
-RUN dotnet build --framework netcoreapp1.1 .\samples\MusicStore
+RUN dotnet build --framework netcoreapp1.1 --runtime win10-x64 .\samples\MusicStore
 
 EXPOSE 5000
 ENV ASPNETCORE_URLS http://0.0.0.0:5000
